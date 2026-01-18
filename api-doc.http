@@ -1,0 +1,6 @@
+
+GET http://localhost:9510/api/v1/health/live
+
+###
+
+GET http://localhost:9510/api/v1/health/ready
