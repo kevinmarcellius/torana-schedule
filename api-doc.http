@@ -1,6 +1,52 @@
-
+# Health Checks
+###
+# @name Liveness Check
 GET http://localhost:9510/api/v1/health/live
 
 ###
-
+# @name Readiness Check
 GET http://localhost:9510/api/v1/health/ready
+
+
+# ===============================================
+# Lines API
+# ===============================================
+
+###
+# @name Get All Lines
+# Returns all train lines and their stations.
+GET http://localhost:9510/api/v1/lines
+
+###
+# @name Get Stations by Line (South)
+# Returns all stations and their schedules for the "South" line.
+GET http://localhost:9510/api/v1/lines/South
+
+###
+# @name Get Stations by Line (Central)
+# Returns all stations and their schedules for the "Central" line.
+GET http://localhost:9510/api/v1/lines/Central
+
+
+# ===============================================
+# Schedules API
+# ===============================================
+
+###
+# @name Get All Schedules (Grouped by Station)
+# Returns all schedules for all stations, grouped by station.
+GET http://localhost:9510/api/v1/schedules
+
+###
+# @name Search Schedules (Filtered)
+# Search for schedules. At least one parameter is required.
+# Available parameters: station, startTime, endTime, line, trainType
+GET http://localhost:9510/api/v1/schedules/search?station=Sonoma&startTime=08:00:00&endTime=10:00:00
+
+###
+# @name Search Schedules (Station Only)
+GET http://localhost:9510/api/v1/schedules/search?station=Prelude
+
+###
+# @name Search Schedules (Time Only)
+GET http://localhost:9510/api/v1/schedules/search?startTime=10:00:00&endTime=11:00:00

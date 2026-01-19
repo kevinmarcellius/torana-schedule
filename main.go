@@ -9,7 +9,9 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 
 	"github.com/kevinmarcellius/torana-schedule/config"
-	handler "github.com/kevinmarcellius/torana-schedule/internal/handler"
+	"github.com/kevinmarcellius/torana-schedule/internal/handler"
+	"github.com/kevinmarcellius/torana-schedule/internal/repository"
+	"github.com/kevinmarcellius/torana-schedule/internal/service"
 )
 
 func main() {
@@ -39,6 +41,21 @@ func main() {
 
 	healthHandler := handler.NewHealthHandler(db)
 
+	// Line endpoint wiring
+	lineRepo := repository.NewLineRepository(db)
+	lineService := service.NewLineService(lineRepo)
+	lineHandler := handler.NewLineHandler(lineService)
+
+	// Station endpoint wiring
+	stationRepo := repository.NewStationRepository(db)
+	stationService := service.NewStationService(stationRepo)
+	stationHandler := handler.NewStationHandler(stationService)
+
+	// Schedule endpoint wiring
+	scheduleRepo := repository.NewScheduleRepository(db)
+	scheduleService := service.NewScheduleService(scheduleRepo)
+	scheduleHandler := handler.NewScheduleHandler(scheduleService)
+
 	e := echo.New()
 	e.Use(middleware.Logger()) // Add this line to enable the logger middleware
 	e.GET("/", func(c echo.Context) error {
@@ -48,6 +65,10 @@ func main() {
 	v1 := e.Group("/api/v1")
 	v1.GET("/health/ready", healthHandler.ReadinessCheck)
 	v1.GET("/health/live", healthHandler.LivenessCheck)
+	v1.GET("/lines", lineHandler.GetLines)
+	v1.GET("/lines/:lineName", stationHandler.GetStationsByLine)
+	v1.GET("/schedules", scheduleHandler.GetAllSchedules)
+	v1.GET("/schedules/search", scheduleHandler.SearchSchedules)
 
 	port := fmt.Sprintf(":%d", cfg.Port)
 	log.Printf("Starting server on port %s\n", port)

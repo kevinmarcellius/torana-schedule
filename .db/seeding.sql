@@ -2,9 +2,8 @@
 DELETE FROM schedules;
 DELETE FROM train_trips;
 
--- Insert sample train trips and capture their generated UUIDs using CTEs (Common Table Expressions)
-
--- Line 1: "South"
+-- Insert sample train trips and capture their generated UUIDs using CTEs,
+-- then insert schedules for those trips in a single statement.
 WITH trip1 AS (
     INSERT INTO train_trips (line, station, train_type, distance)
     VALUES ('South', 'Sonoma', 'Regular', 0)
@@ -23,8 +22,6 @@ trip3 AS (
     ON CONFLICT (line, station, train_type) DO NOTHING
     RETURNING id
 ),
-
--- Line 2: "Central"
 trip4 AS (
     INSERT INTO train_trips (line, station, train_type, distance)
     VALUES ('Central', 'Sandero', 'Regular', 0)
@@ -43,8 +40,6 @@ trip6 AS (
     ON CONFLICT (line, station, train_type) DO NOTHING
     RETURNING id
 ),
-
--- Line 3: "North"
 trip7 AS (
     INSERT INTO train_trips (line, station, train_type, distance)
     VALUES ('North', 'Futurama', 'Regular', 0)
@@ -63,24 +58,22 @@ trip9 AS (
     ON CONFLICT (line, station, train_type) DO NOTHING
     RETURNING id
 )
-
--- Insert schedules for the trips created above
 INSERT INTO schedules (trip_id, "time")
-SELECT id, '08:00:00' FROM trip1 WHERE id IS NOT NULL
+SELECT id, '08:00:00'::time FROM trip1 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '08:10:00' FROM trip2 WHERE id IS NOT NULL
+SELECT id, '08:10:00'::time FROM trip2 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '08:20:00' FROM trip3 WHERE id IS NOT NULL
+SELECT id, '08:20:00'::time FROM trip3 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '09:00:00' FROM trip4 WHERE id IS NOT NULL
+SELECT id, '09:00:00'::time FROM trip4 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '09:15:00' FROM trip5 WHERE id IS NOT NULL
+SELECT id, '09:15:00'::time FROM trip5 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '09:25:00' FROM trip6 WHERE id IS NOT NULL
+SELECT id, '09:25:00'::time FROM trip6 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '10:00:00' FROM trip7 WHERE id IS NOT NULL
+SELECT id, '10:00:00'::time FROM trip7 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '10:12:00' FROM trip8 WHERE id IS NOT NULL
+SELECT id, '10:12:00'::time FROM trip8 WHERE id IS NOT NULL
 UNION ALL
-SELECT id, '10:22:00' FROM trip9 WHERE id IS NOT NULL
+SELECT id, '10:22:00'::time FROM trip9 WHERE id IS NOT NULL
 ON CONFLICT (trip_id, "time") DO NOTHING;
