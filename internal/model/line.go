@@ -16,8 +16,9 @@ type LinesResponse struct {
 
 // TrainTrip is used for internal data transfer from repository to service.
 type TrainTrip struct {
-	Line     string
-	Station  string
-	Distance int
-	TrainType string
+	ID        string `json:"id"`
+	Line      string `json:"line"`
+	Station   string `json:"station"`
+	TrainType string `json:"train_type"`
+	Distance  int    `json:"distance"`
 }

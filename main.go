@@ -56,6 +56,11 @@ func main() {
 	scheduleService := service.NewScheduleService(scheduleRepo)
 	scheduleHandler := handler.NewScheduleHandler(scheduleService)
 
+	// Trip endpoint wiring
+	tripRepo := repository.NewTripRepository(db)
+	tripService := service.NewTripService(tripRepo)
+	tripHandler := handler.NewTripHandler(tripService)
+
 	e := echo.New()
 	e.Use(middleware.Logger()) // Add this line to enable the logger middleware
 	e.GET("/", func(c echo.Context) error {
@@ -69,6 +74,7 @@ func main() {
 	v1.GET("/lines/:lineName", stationHandler.GetStationsByLine)
 	v1.GET("/schedules", scheduleHandler.GetAllSchedules)
 	v1.GET("/schedules/search", scheduleHandler.SearchSchedules)
+	v1.GET("/trips/details/search", tripHandler.GetTripDetails)
 
 	port := fmt.Sprintf(":%d", cfg.Port)
 	log.Printf("Starting server on port %s\n", port)

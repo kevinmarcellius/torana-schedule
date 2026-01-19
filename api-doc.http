@@ -50,3 +50,12 @@ GET http://localhost:9510/api/v1/schedules/search?station=Prelude
 ###
 # @name Search Schedules (Time Only)
 GET http://localhost:9510/api/v1/schedules/search?startTime=10:00:00&endTime=11:00:00
+
+# ===============================================
+# Trips API
+# ===============================================
+
+###
+# @name Get Trip Details (Cross-Line Example: Sandero to Bronco)
+# Get distance between two stations for a specific train type, supporting cross-line transfers.
+GET http://localhost:9510/api/v1/trips/details/search?source=Futurama&destination=Sandero&trainType=Regular
