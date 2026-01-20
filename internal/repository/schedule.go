@@ -5,16 +5,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type ScheduleRepository struct {
+type ScheduleRepository interface{
+	GetAllSchedules() ([]model.Schedule, error)
+	SearchSchedules(params *model.ScheduleSearchParams) ([]model.Schedule, error)
+}
+
+type scheduleRepository struct {
 	db *gorm.DB
 }
 
-func NewScheduleRepository(db *gorm.DB) *ScheduleRepository {
-	return &ScheduleRepository{db: db}
+func NewScheduleRepository(db *gorm.DB) ScheduleRepository {
+	return &scheduleRepository{db: db}
 }
 
 // GetAllSchedules retrieves all schedules, ordered by station and time.
-func (r *ScheduleRepository) GetAllSchedules() ([]model.Schedule, error) {
+func (r *scheduleRepository) GetAllSchedules() ([]model.Schedule, error) {
 	var schedules []model.Schedule
 	result := r.db.Table("schedules s").
 		Select("tt.line, tt.station, tt.train_type, to_char(s.time, 'HH24:MI:SS') as time").
@@ -29,7 +34,7 @@ func (r *ScheduleRepository) GetAllSchedules() ([]model.Schedule, error) {
 }
 
 // SearchSchedules retrieves schedules based on optional search criteria.
-func (r *ScheduleRepository) SearchSchedules(params *model.ScheduleSearchParams) ([]model.Schedule, error) {
+func (r *scheduleRepository) SearchSchedules(params *model.ScheduleSearchParams) ([]model.Schedule, error) {
 	var schedules []model.Schedule
 
 	query := r.db.Table("schedules s").

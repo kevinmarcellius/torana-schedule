@@ -7,10 +7,10 @@ import (
 )
 
 type ScheduleService struct {
-	scheduleRepo *repository.ScheduleRepository
+	scheduleRepo repository.ScheduleRepository
 }
 
-func NewScheduleService(scheduleRepo *repository.ScheduleRepository) *ScheduleService {
+func NewScheduleService(scheduleRepo repository.ScheduleRepository) *ScheduleService {
 	return &ScheduleService{scheduleRepo: scheduleRepo}
 }
 

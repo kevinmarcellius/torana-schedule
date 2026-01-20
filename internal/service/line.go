@@ -8,10 +8,10 @@ import (
 )
 
 type LineService struct {
-	lineRepo *repository.LineRepository
+	lineRepo repository.LineRepository
 }
 
-func NewLineService(lineRepo *repository.LineRepository) *LineService {
+func NewLineService(lineRepo repository.LineRepository) *LineService {
 	return &LineService{lineRepo: lineRepo}
 }
 

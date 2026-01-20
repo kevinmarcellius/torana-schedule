@@ -12,11 +12,11 @@ import (
 
 // TripService handles the business logic for trips.
 type TripService struct {
-	tripRepo *repository.TripRepository
+	tripRepo repository.TripRepository
 }
 
 // NewTripService creates a new TripService.
-func NewTripService(tripRepo *repository.TripRepository) *TripService {
+func NewTripService(tripRepo repository.TripRepository) *TripService {
 	return &TripService{tripRepo: tripRepo}
 }
 

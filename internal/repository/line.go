@@ -5,15 +5,20 @@ import (
 	"gorm.io/gorm"
 )
 
-type LineRepository struct {
+type LineRepository interface {
+	GetLinesAndStations() ([]model.TrainTrip, error)
+}
+
+
+type lineRepository struct {
 	db *gorm.DB
 }
 
-func NewLineRepository(db *gorm.DB) *LineRepository {
-	return &LineRepository{db: db}
+func NewLineRepository(db *gorm.DB) LineRepository {
+	return &lineRepository{db: db}
 }
 
-func (r *LineRepository) GetLinesAndStations() ([]model.TrainTrip, error) {
+func (r *lineRepository) GetLinesAndStations() ([]model.TrainTrip, error) {
 	var trips []model.TrainTrip
 	result := r.db.Table("train_trips").
 		Select("line, station, distance, train_type").

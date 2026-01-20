@@ -5,15 +5,19 @@ import (
 	"gorm.io/gorm"
 )
 
-type TripRepository struct {
+type TripRepository interface {
+	GetAllTrips() ([]model.TrainTrip, error)
+}
+
+type tripRepository struct {
 	db *gorm.DB
 }
 
-func NewTripRepository(db *gorm.DB) *TripRepository {
-	return &TripRepository{db: db}
+func NewTripRepository(db *gorm.DB) TripRepository {
+	return &tripRepository{db: db}
 }
 
-func (r *TripRepository) GetAllTrips() ([]model.TrainTrip, error) {
+func (r *tripRepository) GetAllTrips() ([]model.TrainTrip, error) {
 	var trips []model.TrainTrip
 	if err := r.db.Table("train_trips").Find(&trips).Error; err != nil {
 		return nil, err
