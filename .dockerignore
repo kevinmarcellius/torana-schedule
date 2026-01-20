@@ -1,0 +1,19 @@
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Environment
+.env
+
+# Go
+*.sum
+*.out
+
+# DB
+.db
+
+

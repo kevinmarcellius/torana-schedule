@@ -23,7 +23,6 @@ func (h *StationHandler) GetStationsByLine(c echo.Context) error {
 
 	response, err := h.stationSvc.GetLineWithStations(lineName)
 	if err != nil {
-		// In a real app, you'd want to log this error
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve stations"})
 	}
 

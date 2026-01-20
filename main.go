@@ -72,7 +72,6 @@ func main() {
 	v1.GET("/health/live", healthHandler.LivenessCheck)
 	v1.GET("/lines", lineHandler.GetLines)
 	v1.GET("/lines/:lineName", stationHandler.GetStationsByLine)
-	v1.GET("/schedules", scheduleHandler.GetAllSchedules)
 	v1.GET("/schedules/search", scheduleHandler.SearchSchedules)
 	v1.GET("/trips/details/search", tripHandler.GetTripDetails)
 

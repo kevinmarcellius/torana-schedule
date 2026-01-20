@@ -23,7 +23,7 @@ const timeLayout = "15:04:05"
 func (h *ScheduleHandler) GetAllSchedules(c echo.Context) error {
 	groupedSchedules, err := h.scheduleSvc.GetGroupedSchedules()
 	if err != nil {
-		// In a real app, you'd want to log this error
+		
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve schedules"})
 	}
 	return c.JSON(http.StatusOK, groupedSchedules)
@@ -32,7 +32,7 @@ func (h *ScheduleHandler) GetAllSchedules(c echo.Context) error {
 // SearchSchedules handles the GET /api/v1/schedules/search endpoint.
 func (h *ScheduleHandler) SearchSchedules(c echo.Context) error {
 	if len(c.QueryParams()) == 0 {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "At least one query parameter is required for search"})
+		return h.GetAllSchedules(c)
 	}
 
 	params := &model.ScheduleSearchParams{
@@ -61,7 +61,6 @@ func (h *ScheduleHandler) SearchSchedules(c echo.Context) error {
 
 	schedules, err := h.scheduleSvc.SearchSchedules(params)
 	if err != nil {
-		// In a real app, you'd want to log this error
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve schedules"})
 	}
 

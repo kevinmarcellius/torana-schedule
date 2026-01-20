@@ -18,7 +18,7 @@ func NewLineHandler(lineSvc *service.LineService) *LineHandler {
 func (h *LineHandler) GetLines(c echo.Context) error {
 	linesResponse, err := h.lineSvc.GetLinesWithStations()
 	if err != nil {
-		// In a real app, you'd want to log this error
+		
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to retrieve lines"})
 	}
 	return c.JSON(http.StatusOK, linesResponse)
