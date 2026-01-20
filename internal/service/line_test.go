@@ -5,7 +5,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/golang/mock/gomock"
+	gomock "go.uber.org/mock/gomock"
 	"github.com/kevinmarcellius/torana-schedule/internal/model"
 	mock_repository "github.com/kevinmarcellius/torana-schedule/internal/repository/mocks"
 	"github.com/stretchr/testify/assert"
